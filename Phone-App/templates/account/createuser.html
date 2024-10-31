@@ -1,0 +1,36 @@
+{% extends 'pages/base.html' %}
+{% block title %}Register | Page{%  endblock %}
+{% block body %}
+{% load crispy_forms_tags %}
+<main>
+<section class="container mb-5" style="margin-top: 100px">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card mt-3 shadow bg-light p-3">
+        <div class="card-body">
+          <div class="text-center">
+            <h1 class="card-title border-bottom p-2 m-3">Register User Form</h1>
+          </div>
+          <form method="post" action="#" autocomplete="off">
+            {% csrf_token %} 
+            {{myform|crispy}}
+            <div class="d-grid gap-2 mt-3">
+              <button type="submit" class="btn btn-outline-primary">
+                Register New User
+              </button>
+            </div>
+          </form>
+        </div>
+      <hr>
+          <p style="text-transform: capitalize"> if you have account you can :
+            <a href="#" style="text-decoration: none">
+                login now .
+            </a>
+          </p>
+     
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+{% endblock%}

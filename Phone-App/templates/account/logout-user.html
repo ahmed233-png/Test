@@ -1,0 +1,14 @@
+{% extends 'pages/base.html' %} 
+{% block title %}Logout-User | Page{% endblock  %} 
+{% block body %} 
+<main>
+<section class="container" style="margin-top: 100px">
+    <div class="row border border-dark p-3 m-3">
+        <h1 style="text-transform: capitalize;">Your logout successfully</h1>
+        <p>
+            <a href="{% url 'login' %}" style="text-decoration: none;" class="text-primary">Login Here</a>
+        </p>
+    </div>
+</section>
+</main>
+{% endblock  %} 

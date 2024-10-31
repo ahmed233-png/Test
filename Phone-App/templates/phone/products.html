@@ -1,0 +1,26 @@
+{% extends 'pages/base.html' %}
+ {% block title %}All-Products | Page{% endblock  %} 
+ {% block body %} 
+ <main>
+ <div class="container card shadow mb-5 bg-light" style="margin-top:100px;" >
+    <div class="row">
+        <h1 class="card-header"> All Products</h1>
+        {% include 'pages/messages.html' %}
+      {% for item in products %}
+      <div class="col-md-3 col-lg-4">
+        <div class="card my-3">
+            <div class="text-center">
+                <img src="{{item.photo.url}}"  class="rounded mx-auto d-block" alt="Categories" height="250" width="150"/>
+            </div>
+          <a href="{% url 'show' item.id %}" style="text-decoration: none;">
+          <div class="card-footer">
+            <h6 class="card-title text-primary">Show Detailes.</h6>
+          </div>
+        </a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</main>
+ {% endblock %}

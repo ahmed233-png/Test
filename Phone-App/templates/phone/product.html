@@ -1,0 +1,113 @@
+{% extends 'pages/base.html' %} 
+{% block title %}Product-Detailes | Page{%endblock  %} 
+{% block body %}
+<main>
+  <div class="container card shadow mb-5 bg-light" style="margin-top: 100px">
+    <div class="row">
+      <h1 class="card-header">Product Detailes</h1>
+      <div class="col-md-4">
+        <div class="card my-3">
+          <img
+            src="{{pro_id.photo.url}}"
+            class="rounded mx-auto d-block"
+            alt="Categories"
+            height="250"
+            width="140"
+          />
+        </div>
+      </div>
+      <div class="col-md-8 p-3">
+        <p class="card-title">Product Name | {{pro_id.name|title}}</p>
+        <hr />
+        <p class="card-title">
+          Description | {{pro_id.description|title}}
+        </p>
+        <hr />
+        <p class="card-title">
+          Price |
+          <span id="price" class="bg-dark text-light rounded-circle p-2"
+            >${{pro_id.price}}</span
+          >
+        </p>
+        <hr>
+        {% if pro_id.quantity > 0 %}
+        <input type="hidden" value="{{pro_id.id}}" id="pid">
+    
+        <p>
+          <div class="input-group" style="width:250px">
+            <button class="input-group-text bg-primary text-light" id="btnMinus" ><i class="fa fa-minus"></i></button>
+              <input type="text" name="qty" id="txtQty" value="1" class="form-control text-center">
+            <button class="input-group-text bg-primary text-light" id="btnPlus"><i class="fa fa-plus"></i></button>
+          </div>
+        </p>
+        <button  class="btn btn-primary btn-block w-100 p-2" id="btnCart"><i class="fa fa-shopping-cart"></i> Add To Cart</button>
+        {% else %}
+        <button class="btn btn-danger btn-block w-100 p-2"><i class="fa fa-minus"></i> Out Off Stock.</button>
+        {% endif %}
+        <hr>
+       
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+<script>
+document.addEventListener("DOMContentLoaded", function(event) {  
+  const btnPlus = document.getElementById("btnPlus");
+  const btnMinus = document.getElementById("btnMinus");
+  const txtQty = document.getElementById("txtQty");
+  const pid = document.getElementById("pid");
+  const btnCart = document.getElementById("btnCart");
+    btnPlus.addEventListener("click", function() {
+      let qty=parseInt(txtQty.value,10);
+      qty=isNaN(qty)?0:qty;
+      if(qty<10){
+        qty++;
+        txtQty.value=qty;
+      }
+    });
+    btnMinus.addEventListener("click", function() {
+      let qty=parseInt(txtQty.value,10);
+      qty=isNaN(qty)?0:qty;
+      //console.log(qty);
+      if(qty>1){
+        qty--;
+        txtQty.value=qty;
+      }
+  });
+  btnCart.addEventListener("click", function() {
+    let qty=parseInt(txtQty.value,10);
+    qty=isNaN(qty)?0:qty;
+    if(qty>0){
+      let postObj = { 
+          'product_qty': qty, 
+          'pid': pid.value
+      }
+      //console.log(postObj);
+      fetch("/addtocart",{
+        method: 'POST',
+        credentials: 'same-origin',
+        headers:{
+            'Accept': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRFToken': '{{ csrf_token }}',
+        },
+        body: JSON.stringify(postObj)
+      }).then(response => {
+        return response.json();
+      }).then(data => {
+        //console.log(data);
+        alert(data['status']);
+      });
+    }else{
+      alert("Please Enter The Quantity");
+    } 
+});
+  });
+</script>
+{% endblock  %}
+
